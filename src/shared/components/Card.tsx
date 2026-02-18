@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const Card = styled.div<{ glass?: boolean }>`
-  background: ${({ glass }) =>
-    glass
+export const Card = styled.div<{ $glass?: boolean }>`
+  background: ${({ $glass }) =>
+    $glass
       ? 'rgba(255, 255, 255, 0.05)'
       : `linear-gradient(135deg, rgba(123, 44, 255, 0.1), rgba(77, 163, 255, 0.05))`};
-  backdrop-filter: ${({ glass }) => (glass ? 'blur(10px)' : 'none')};
+  backdrop-filter: ${({ $glass }) => ($glass ? 'blur(10px)' : 'none')};
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: ${({ theme }) => theme.radius.md};
   padding: ${({ theme }) => theme.spacing.lg};
@@ -19,20 +19,20 @@ export const Card = styled.div<{ glass?: boolean }>`
   }
 `;
 
-export const Button = styled.button<{ variant?: 'primary' | 'secondary' }>`
+export const Button = styled.button<{ $variant?: 'primary' | 'secondary' }>`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.radius.sm};
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: 600;
   transition: all ${({ theme }) => theme.transition.fast};
   cursor: pointer;
-  background: ${({ variant, theme }) =>
-    variant === 'secondary'
+  background: ${({ $variant, theme }) =>
+    $variant === 'secondary'
       ? 'transparent'
       : `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`};
   color: ${({ theme }) => theme.colors.text};
-  border: ${({ variant, theme }) =>
-    variant === 'secondary' ? `2px solid ${theme.colors.primary}` : 'none'};
+  border: ${({ $variant, theme }) =>
+    $variant === 'secondary' ? `2px solid ${theme.colors.primary}` : 'none'};
 
   &:hover {
     transform: translateY(-2px);

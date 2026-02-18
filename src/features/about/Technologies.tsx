@@ -72,7 +72,7 @@ export const Technologies: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Grid columns={2}>
+          <Grid $columns={2}>
             {technologies.map((tech, index) => (
               <CategoryCard key={index}>
                 <CategoryTitle>{tech.category}</CategoryTitle>

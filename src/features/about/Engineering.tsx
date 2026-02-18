@@ -114,9 +114,9 @@ export const Engineering: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Grid columns={2}>
+          <Grid $columns={2}>
             {features.map((feature, index) => (
-              <FeatureCard key={index} glass>
+              <FeatureCard key={index} $glass>
                 <FeatureIcon>{feature.icon}</FeatureIcon>
                 <FeatureTitle>{feature.title}</FeatureTitle>
                 <FeatureDescription>{feature.description}</FeatureDescription>

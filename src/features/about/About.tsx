@@ -93,9 +93,9 @@ export const About: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Grid columns={3}>
+          <Grid $columns={3}>
             {interests.map((interest, index) => (
-              <InterestCard key={index} glass>
+              <InterestCard key={index} $glass>
                 <InterestIcon>{interest.icon}</InterestIcon>
                 <InterestTitle>{interest.title}</InterestTitle>
               </InterestCard>

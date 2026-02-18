@@ -77,7 +77,7 @@ const VisualContent = styled.div`
 export const Hero: React.FC = () => {
   return (
     <HeroContainer id="hero">
-      <Container maxWidth="1400px">
+      <Container $maxWidth="1400px">
         <HeroContent>
           <TextContent>
             <Headline

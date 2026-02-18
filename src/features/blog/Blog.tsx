@@ -30,11 +30,11 @@ const FilterBar = styled.div`
   justify-content: center;
 `;
 
-const FilterTag = styled(Tag)<{ active?: boolean }>`
+const FilterTag = styled(Tag)<{ $active?: boolean }>`
   cursor: pointer;
   transition: all ${({ theme }) => theme.transition.fast};
-  background: ${({ active, theme }) =>
-    active ? theme.colors.primary : 'rgba(123, 44, 255, 0.2)'};
+  background: ${({ $active, theme }) =>
+    $active ? theme.colors.primary : 'rgba(123, 44, 255, 0.2)'};
   
   &:hover {
     background: ${({ theme }) => theme.colors.primary};
@@ -179,7 +179,7 @@ export const Blog: React.FC = () => {
           >
             <FilterBar>
               <FilterTag
-                active={selectedTag === null}
+                $active={selectedTag === null}
                 onClick={() => setSelectedTag(null)}
               >
                 Todos
@@ -187,7 +187,7 @@ export const Blog: React.FC = () => {
               {tags.map((tag) => (
                 <FilterTag
                   key={tag}
-                  active={selectedTag === tag}
+                  $active={selectedTag === tag}
                   onClick={() => handleTagClick(tag)}
                 >
                   {tag}
@@ -206,9 +206,9 @@ export const Blog: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Grid columns={2}>
+            <Grid $columns={2}>
               {filteredPosts.map((post) => (
-                <PostCard key={post.id} glass>
+                <PostCard key={post.id} $glass>
                   <PostDate>{formatDate(post.date)}</PostDate>
                   <PostTitle>{post.title}</PostTitle>
                   {post.excerpt && <PostExcerpt>{post.excerpt}</PostExcerpt>}

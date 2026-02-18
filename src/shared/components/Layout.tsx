@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div<{ maxWidth?: string }>`
+export const Container = styled.div<{ $maxWidth?: string }>`
   width: 100%;
-  max-width: ${({ maxWidth }) => maxWidth || '1200px'};
+  max-width: ${({ $maxWidth }) => $maxWidth || '1200px'};
   margin: 0 auto;
   padding: 0 ${({ theme }) => theme.spacing.lg};
 
@@ -11,9 +11,9 @@ export const Container = styled.div<{ maxWidth?: string }>`
   }
 `;
 
-export const Section = styled.section<{ background?: string }>`
+export const Section = styled.section<{ $background?: string }>`
   padding: ${({ theme }) => theme.spacing.xxl} 0;
-  background: ${({ background }) => background || 'transparent'};
+  background: ${({ $background }) => $background || 'transparent'};
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -24,10 +24,10 @@ export const Section = styled.section<{ background?: string }>`
   }
 `;
 
-export const Grid = styled.div<{ columns?: number; gap?: string }>`
+export const Grid = styled.div<{ $columns?: number; $gap?: string }>`
   display: grid;
-  grid-template-columns: repeat(${({ columns }) => columns || 3}, 1fr);
-  gap: ${({ gap, theme }) => gap || theme.spacing.lg};
+  grid-template-columns: repeat(${({ $columns }) => $columns || 3}, 1fr);
+  gap: ${({ $gap, theme }) => $gap || theme.spacing.lg};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
@@ -35,14 +35,14 @@ export const Grid = styled.div<{ columns?: number; gap?: string }>`
 `;
 
 export const Flex = styled.div<{
-  direction?: 'row' | 'column';
-  align?: string;
-  justify?: string;
-  gap?: string;
+  $direction?: 'row' | 'column';
+  $align?: string;
+  $justify?: string;
+  $gap?: string;
 }>`
   display: flex;
-  flex-direction: ${({ direction }) => direction || 'row'};
-  align-items: ${({ align }) => align || 'stretch'};
-  justify-content: ${({ justify }) => justify || 'flex-start'};
-  gap: ${({ gap, theme }) => gap || theme.spacing.md};
+  flex-direction: ${({ $direction }) => $direction || 'row'};
+  align-items: ${({ $align }) => $align || 'stretch'};
+  justify-content: ${({ $justify }) => $justify || 'flex-start'};
+  gap: ${({ $gap, theme }) => $gap || theme.spacing.md};
 `;
