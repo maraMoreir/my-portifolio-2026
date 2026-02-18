@@ -101,10 +101,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuth = (): AuthContextValue => {
+// Internal hook - use from hooks.ts instead
+const useAuthInternal = (): AuthContextValue => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export { useAuthInternal };

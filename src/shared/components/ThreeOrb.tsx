@@ -23,9 +23,13 @@ const Particles: React.FC = () => {
   const positions = React.useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
     
+    // Initialize random positions once
     for (let i = 0; i < particleCount; i++) {
+      // eslint-disable-next-line react-hooks/purity
       pos[i * 3] = (Math.random() - 0.5) * 10;
+      // eslint-disable-next-line react-hooks/purity
       pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+      // eslint-disable-next-line react-hooks/purity
       pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
     }
     

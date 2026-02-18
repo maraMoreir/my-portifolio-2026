@@ -1,73 +1,114 @@
-# React + TypeScript + Vite
+# Portfolio Profissional Técnico
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfólio profissional moderno e escalável, focado em engenharia de software, arquitetura e integrações corporativas. Construído com React, TypeScript e Clean Architecture.
 
-Currently, two official plugins are available:
+## 🎯 Objetivo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Transmitir maturidade técnica, capacidade enterprise e pensamento arquitetural através de um site profissional que reflete os princípios de engenharia de software valorizados pelo mercado.
 
-## React Compiler
+## 🚀 Stack Tecnológica
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React.js** - Biblioteca UI com componentes reutilizáveis
+- **TypeScript** (strict mode) - Tipagem forte e segurança
+- **Vite** - Build tool moderna e rápida
+- **Styled-components** - CSS-in-JS com tematização
+- **Framer Motion** - Animações fluidas e performáticas
+- **Three.js** - Elementos 3D leves e interativos
+- **React Router** - Navegação e rotas protegidas
 
-## Expanding the ESLint configuration
+## 🏗️ Arquitetura
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O projeto segue princípios de Clean Architecture com separação clara de responsabilidades:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+ ├── app/           # Configuração da aplicação
+ ├── features/      # Features organizadas por domínio
+ ├── shared/        # Componentes e utilitários compartilhados
+ ├── entities/      # Modelos de domínio
+ ├── infrastructure/# Serviços e integrações externas
+ └── theme/         # Design tokens e temas
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔐 Segurança & Autenticação
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Infraestrutura preparada para:
+- Single Sign-On (SSO)
+- OAuth2 / OpenID Connect
+- JWT handling
+- Rotas protegidas
+- Session management
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🎨 Design System
+
+- Dark mode first
+- Paleta space-tech minimalista
+- Gradientes neon controlados
+- Glassmorphism leve
+- Alto contraste e acessibilidade
+
+## 📦 Instalação
+
+```bash
+# Instalar dependências
+npm install
+
+# Executar em desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+
+# Preview da build
+npm run preview
 ```
+
+## 🧪 Desenvolvimento
+
+```bash
+# Lint
+npm run lint
+
+# Type checking
+npm run build
+```
+
+## 🌐 Seções
+
+1. **Hero** - Apresentação profissional com elemento 3D
+2. **Sobre** - Especialidades e áreas de interesse
+3. **Tecnologias** - Stack completo organizado por categoria
+4. **Engenharia** - Princípios de arquitetura e performance
+5. **Novidades** - Blog técnico baseado em Markdown
+
+## 📝 Adicionando Posts ao Blog
+
+Os posts são gerenciados em `src/infrastructure/services/blogService.ts`. Para adicionar novos posts, edite o array `mockPosts` com:
+
+- título
+- data
+- tags
+- tempo de leitura
+- slug
+- excerpt
+- conteúdo (suporta Markdown)
+
+## ♿ Acessibilidade
+
+- Navegação por teclado
+- Skip links
+- ARIA labels
+- Alto contraste
+- Semântica HTML correta
+
+## 🚀 Performance
+
+- Code splitting automático
+- Lazy loading de componentes pesados
+- Three.js carregado sob demanda
+- Otimização de bundle
+- Suspense boundaries
+
+## 📄 Licença
+
+Este projeto é de código aberto e está disponível sob a licença MIT.

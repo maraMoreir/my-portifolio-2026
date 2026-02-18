@@ -74,9 +74,18 @@ const VisualContent = styled.div`
   }
 `;
 
+const LoadingFallback = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+`;
+
 export const Hero: React.FC = () => {
   return (
-    <HeroContainer id="hero">
+    <HeroContainer id="hero" aria-label="Hero section">
       <Container $maxWidth="1400px">
         <HeroContent>
           <TextContent>
@@ -84,6 +93,9 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              as="h1"
+              role="heading"
+              aria-level={1}
             >
               Transformando códigos em soluções escaláveis e resilientes.
             </Headline>
@@ -101,8 +113,8 @@ export const Hero: React.FC = () => {
             </Description>
           </TextContent>
           
-          <VisualContent>
-            <Suspense fallback={<div>Loading...</div>}>
+          <VisualContent aria-label="3D visualization">
+            <Suspense fallback={<LoadingFallback>Carregando visualização 3D...</LoadingFallback>}>
               <ThreeOrb />
             </Suspense>
           </VisualContent>

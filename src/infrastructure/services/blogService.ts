@@ -163,6 +163,7 @@ RabbitMQ é um message broker robusto que facilita a comunicação assíncrona e
  */
 export const getAllPosts = async (): Promise<PostMetadata[]> => {
   // In production, this would read from markdown files or fetch from an API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return mockPosts.map(({ content, ...metadata }) => metadata);
 };
 
