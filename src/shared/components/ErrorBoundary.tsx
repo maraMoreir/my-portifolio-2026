@@ -51,6 +51,13 @@ const ErrorButton = styled.button`
   }
 `;
 
+// TODO: Implement i18n for multi-language support
+const ErrorStrings = {
+  title: 'Algo deu errado',
+  message: 'Desculpe, ocorreu um erro inesperado. Por favor, tente novamente.',
+  button: 'Tentar Novamente',
+};
+
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -86,16 +93,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <ErrorContainer>
-          <ErrorTitle>Algo deu errado</ErrorTitle>
-          <ErrorMessage>
-            Desculpe, ocorreu um erro inesperado. Por favor, tente novamente.
-          </ErrorMessage>
+          <ErrorTitle>{ErrorStrings.title}</ErrorTitle>
+          <ErrorMessage>{ErrorStrings.message}</ErrorMessage>
           {this.state.error && import.meta.env.DEV && (
             <ErrorMessage style={{ fontSize: '14px', fontFamily: 'monospace' }}>
               {this.state.error.message}
             </ErrorMessage>
           )}
-          <ErrorButton onClick={this.handleReset}>Tentar Novamente</ErrorButton>
+          <ErrorButton onClick={this.handleReset}>{ErrorStrings.button}</ErrorButton>
         </ErrorContainer>
       );
     }

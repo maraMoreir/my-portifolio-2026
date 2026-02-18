@@ -20,21 +20,21 @@ const AnimatedOrb: React.FC = () => {
 
 const Particles: React.FC = () => {
   const particleCount = 50;
+  // Using useMemo to ensure positions are calculated once on mount
+  // Math.random() is intentionally called here to generate initial particle positions
+  /* eslint-disable react-hooks/purity */
   const positions = React.useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
     
-    // Initialize random positions once
     for (let i = 0; i < particleCount; i++) {
-      // eslint-disable-next-line react-hooks/purity
       pos[i * 3] = (Math.random() - 0.5) * 10;
-      // eslint-disable-next-line react-hooks/purity
       pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      // eslint-disable-next-line react-hooks/purity
       pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
     }
     
     return pos;
   }, []);
+  /* eslint-enable react-hooks/purity */
 
   return (
     <points>

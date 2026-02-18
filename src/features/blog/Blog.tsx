@@ -6,6 +6,10 @@ import { Card, Tag } from '../../shared/components/Card';
 import type { PostMetadata } from '../../entities/post/types';
 import { getAllPosts, getAllTags } from '../../infrastructure/services/blogService';
 
+// TODO: Extract UI strings to i18n configuration for multi-language support
+// Currently using Portuguese (pt-BR) as primary language for Brazilian market
+
+
 const BlogContainer = styled(Section)``;
 
 const Title = styled(motion.h2)`
