@@ -11,6 +11,8 @@ import { About } from './features/about/About';
 import { Technologies } from './features/about/Technologies';
 import { Engineering } from './features/about/Engineering';
 import { Blog } from './features/blog/Blog';
+import { Header } from './features/navigation/Header';
+import { Footer } from './features/navigation/Footer';
 
 const App: React.FC = () => {
   return (
@@ -20,13 +22,15 @@ const App: React.FC = () => {
           <GlobalStyles />
           <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
           <AuthProvider>
-            <main role="main" id="main-content">
+            <Header />
+            <main role="main" id="main-content" style={{ paddingTop: '64px' }}>
               <Hero />
               <About />
               <Technologies />
               <Engineering />
               <Blog />
             </main>
+            <Footer />
           </AuthProvider>
         </ThemeProvider>
       </BrowserRouter>
