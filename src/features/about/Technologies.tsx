@@ -37,19 +37,19 @@ const TechList = styled.div`
 const technologies = [
   {
     category: 'Frontend',
-    techs: ['React', 'TypeScript', 'Next.js', 'Styled-components', 'HTML5', 'CSS3'],
+    techs: ['React', 'TypeScript', 'Styled-components', 'HTML5 / CSS3'],
   },
   {
     category: 'Backend',
-    techs: ['C#', '.NET / ASP.NET Core', 'Entity Framework Core', 'APIs REST'],
+    techs: ['C#', '.NET / ASP.NET Core', 'Entity Framework Core'],
   },
   {
     category: 'Dados & Infra',
-    techs: ['SQL Server', 'MySQL', 'Docker', 'RabbitMQ', 'AWS'],
+    techs: ['SQL Server', 'MySQL', 'Docker', 'RabbitMQ', 'Microsoft Azure'],
   },
   {
     category: 'Enterprise & Integração',
-    techs: ['SAP', 'Integrações Corporativas', 'NF-e / NFSe / DFe', 'Sistemas Legados'],
+    techs: ['SAP Business One', 'SAP', 'Integrações Corporativas', 'NF-e / NFSe / DFe', 'Sistemas Legados'],
   },
 ];
 

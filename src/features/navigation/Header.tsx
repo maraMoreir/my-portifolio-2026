@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavLink {
   label: string;
@@ -8,15 +8,13 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'Início', href: '#hero' },
-  { label: 'Sobre', href: '#about' },
-  { label: 'Tecnologias', href: '#technologies' },
-  { label: 'Engenharia', href: '#engineering' },
-  { label: 'Blog', href: '#blog' },
-  { label: 'Contato', href: '#footer' },
+  { label: "Início", href: "#hero" },
+  { label: "Tecnologias", href: "#technologies" },
+  { label: "Blog", href: "#blog" },
+  { label: "Contato", href: "#footer" },
 ];
 
-const SECTION_IDS = ['hero', 'about', 'technologies', 'engineering', 'blog', 'footer'];
+const SECTION_IDS = ["hero", "about", "technologies", "blog", "footer"];
 
 const HeaderWrapper = styled(motion.header)`
   position: fixed;
@@ -84,17 +82,18 @@ const NavItem = styled.a<{ $active?: boolean }>`
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.radius.sm};
-  transition: color ${({ theme }) => theme.transition.fast},
+  transition:
+    color ${({ theme }) => theme.transition.fast},
     background ${({ theme }) => theme.transition.fast};
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 50%;
     transform: translateX(-50%);
-    width: ${({ $active }) => ($active ? '100%' : '0')};
+    width: ${({ $active }) => ($active ? "100%" : "0")};
     height: 2px;
     background: ${({ theme }) => theme.colors.primary};
     border-radius: 1px;
@@ -148,7 +147,9 @@ const Bar = styled.span<{ $open: boolean; $index: number }>`
   height: 2px;
   background: ${({ theme }) => theme.colors.text};
   border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 
   ${({ $open, $index }) =>
     $open &&
@@ -196,10 +197,11 @@ const MobileNavItem = styled.a<{ $active?: boolean }>`
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.radius.sm};
-  transition: color ${({ theme }) => theme.transition.fast},
+  transition:
+    color ${({ theme }) => theme.transition.fast},
     background ${({ theme }) => theme.transition.fast};
   background: ${({ $active }) =>
-    $active ? 'rgba(123, 44, 255, 0.15)' : 'transparent'};
+    $active ? "rgba(123, 44, 255, 0.15)" : "transparent"};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
@@ -215,19 +217,19 @@ const MobileNavItem = styled.a<{ $active?: boolean }>`
 const handleNavClick = (
   e: React.MouseEvent<HTMLAnchorElement>,
   href: string,
-  onClose?: () => void
+  onClose?: () => void,
 ) => {
   e.preventDefault();
-  const id = href.replace('#', '');
+  const id = href.replace("#", "");
   const target = document.getElementById(id);
   if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   onClose?.();
 };
 
 export const Header: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<string>('hero');
+  const [activeSection, setActiveSection] = useState<string>("hero");
   const [menuOpen, setMenuOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -249,7 +251,7 @@ export const Header: React.FC = () => {
           if (id) setActiveSection(id);
         }
       },
-      { threshold: 0.3, rootMargin: '-64px 0px 0px 0px' }
+      { threshold: 0.3, rootMargin: "-64px 0px 0px 0px" },
     );
 
     sectionMap.forEach((_, el) => observerRef.current?.observe(el));
@@ -262,8 +264,8 @@ export const Header: React.FC = () => {
     const handleResize = () => {
       if (window.innerWidth > 768) setMenuOpen(false);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -271,27 +273,27 @@ export const Header: React.FC = () => {
       <HeaderWrapper
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         role="banner"
       >
         <HeaderInner>
           <Logo
             href="#hero"
             aria-label="Ir para o início"
-            onClick={(e) => handleNavClick(e, '#hero')}
+            onClick={(e) => handleNavClick(e, "#hero")}
           >
-            Mara Moreira
+            Silmara M.
           </Logo>
 
           <Nav aria-label="Navegação principal">
             {NAV_LINKS.map((link) => {
-              const id = link.href.replace('#', '');
+              const id = link.href.replace("#", "");
               return (
                 <NavItem
                   key={link.href}
                   href={link.href}
                   $active={activeSection === id}
-                  aria-current={activeSection === id ? 'page' : undefined}
+                  aria-current={activeSection === id ? "page" : undefined}
                   onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}
@@ -301,7 +303,7 @@ export const Header: React.FC = () => {
           </Nav>
 
           <HamburgerButton
-            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -325,13 +327,13 @@ export const Header: React.FC = () => {
             transition={{ duration: 0.2 }}
           >
             {NAV_LINKS.map((link) => {
-              const id = link.href.replace('#', '');
+              const id = link.href.replace("#", "");
               return (
                 <MobileNavItem
                   key={link.href}
                   href={link.href}
                   $active={activeSection === id}
-                  aria-current={activeSection === id ? 'page' : undefined}
+                  aria-current={activeSection === id ? "page" : undefined}
                   onClick={(e) =>
                     handleNavClick(e, link.href, () => setMenuOpen(false))
                   }

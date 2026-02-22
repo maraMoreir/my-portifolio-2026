@@ -1,12 +1,13 @@
-import React, { lazy, Suspense } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Container, Section } from '../../shared/components/Layout';
+import React, { lazy, Suspense } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Container, Section, Grid } from "../../shared/components/Layout";
+import { Card } from "../../shared/components/Card";
 
 const ThreeOrb = lazy(() =>
-  import('../../shared/components/ThreeOrb').then((module) => ({
+  import("../../shared/components/ThreeOrb").then((module) => ({
     default: module.ThreeOrb,
-  }))
+  })),
 );
 
 const HeroContainer = styled(Section)`
@@ -27,6 +28,14 @@ const HeroContent = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.spacing.lg};
+  }
+`;
+
+const InterestsSection = styled(motion.div)`
+  margin-top: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    margin-top: ${({ theme }) => theme.spacing.lg};
   }
 `;
 
@@ -83,6 +92,34 @@ const LoadingFallback = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
+const InterestCard = styled(Card)`
+  text-align: center;
+`;
+
+const InterestIcon = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`;
+
+const InterestTitle = styled.h3`
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const interests = [
+  { icon: "🔗", title: "Integração de Sistemas" },
+  { icon: "📨", title: "Mensageria" },
+  { icon: "🏗️", title: "Arquitetura Backend" },
+  { icon: "📄", title: "Sistemas Fiscais Eletrônicos" },
+  { icon: "📊", title: "Observabilidade" },
+  { icon: "⚡", title: "Performance e Segurança" },
+  { icon: "🧪", title: "Testes Automatizados" },
+  { icon: "🔐", title: "Autenticação e Autorização" },
+  { icon: "☁️", title: "Cloud e Deploy Contínuo" },
+  { icon: "🧩", title: "APIs e Microsserviços" },
+];
+
 export const Hero: React.FC = () => {
   return (
     <HeroContainer id="hero" aria-label="Hero section">
@@ -97,28 +134,47 @@ export const Hero: React.FC = () => {
               role="heading"
               aria-level={1}
             >
-              Transformando códigos em soluções escaláveis e resilientes.
+              Desenvolvedora de Software
             </Headline>
             <Description
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Desenvolvedora Web Full Stack com foco em Back-End, integrações
-              corporativas e arquitetura de sistemas. Experiência na construção
-              de APIs robustas, processamento de documentos fiscais eletrônicos
-              e integração com ambientes enterprise como SAP. Atua aplicando
-              Clean Architecture, boas práticas de engenharia e desenvolvimento
-              orientado à manutenibilidade e evolução contínua.
+              Com foco em resolver desafios através de software sustentável.
+              Experiência com sistemas distribuídos, integrações empresariais e
+              modernização de código legado. Forte atuação em resiliência,
+              desacoplamento arquitetural e construção de soluções preparadas
+              para crescimento.
             </Description>
           </TextContent>
-          
+
           <VisualContent aria-label="3D visualization">
-            <Suspense fallback={<LoadingFallback>Carregando visualização 3D...</LoadingFallback>}>
+            <Suspense
+              fallback={
+                <LoadingFallback>Carregando visualização 3D...</LoadingFallback>
+              }
+            >
               <ThreeOrb />
             </Suspense>
           </VisualContent>
         </HeroContent>
+
+        <InterestsSection
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Grid $columns={3}>
+            {interests.map((interest, index) => (
+              <InterestCard key={index} $glass>
+                <InterestIcon>{interest.icon}</InterestIcon>
+                <InterestTitle>{interest.title}</InterestTitle>
+              </InterestCard>
+            ))}
+          </Grid>
+        </InterestsSection>
       </Container>
     </HeroContainer>
   );
