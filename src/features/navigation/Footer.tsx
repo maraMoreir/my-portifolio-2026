@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import React from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const FooterWrapper = styled.footer`
   background: rgba(5, 1, 15, 0.85);
@@ -149,22 +149,21 @@ const FooterBottom = styled.div`
 `;
 
 const NAV_LINKS = [
-  { label: 'Início', href: '#hero' },
-  { label: 'Sobre', href: '#about' },
-  { label: 'Tecnologias', href: '#technologies' },
-  { label: 'Engenharia', href: '#engineering' },
-  { label: 'Blog', href: '#blog' },
+  { label: "Início", href: "#hero" },
+  { label: "Tecnologias", href: "#technologies" },
+  { label: "Engenharia", href: "#engineering" },
+  { label: "Blog", href: "#blog" },
 ];
 
 const handleNavClick = (
   e: React.MouseEvent<HTMLAnchorElement>,
-  href: string
+  href: string,
 ) => {
   e.preventDefault();
-  const id = href.replace('#', '');
+  const id = href.replace("#", "");
   const target = document.getElementById(id);
   if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 };
 
@@ -189,48 +188,23 @@ export const Footer: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true, margin: "-50px" }}
         >
           <FooterGrid>
             {/* Brand */}
             <FooterSection variants={itemVariants}>
-              <BrandName>Mara Moreira</BrandName>
-              <BrandTagline>
-                Desenvolvedora Web Full Stack com foco em Back-End, integrações
-                corporativas e arquitetura de sistemas.
-              </BrandTagline>
+              <BrandName>Silmara M.</BrandName>
+              <BrandTagline>Desenvolvedora de Software</BrandTagline>
             </FooterSection>
 
             {/* Contact */}
             <FooterSection variants={itemVariants}>
               <FooterTitle>Contato</FooterTitle>
               <ContactList>
+                <ContactItem></ContactItem>
                 <ContactItem>
                   <ContactLink
-                    href="mailto:maramoreira.dev@gmail.com"
-                    aria-label="Enviar e-mail para Mara Moreira"
-                  >
-                    <IconWrapper aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                      </svg>
-                    </IconWrapper>
-                    maramoreira.dev@gmail.com
-                  </ContactLink>
-                </ContactItem>
-                <ContactItem>
-                  <ContactLink
-                    href="https://www.linkedin.com/in/maramoreira"
+                    href="https://www.linkedin.com/in/silmaraa/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Perfil do LinkedIn de Mara Moreira (abre em nova aba)"
@@ -295,8 +269,8 @@ export const Footer: React.FC = () => {
         <Divider />
 
         <FooterBottom>
-          © 2026 Mara Moreira — Construído com React, TypeScript &amp; paixão
-          por engenharia de software
+          © 2026 Silmara M. - Construído com React / TypeScript &amp; muito amor
+          ❤️
         </FooterBottom>
       </FooterInner>
     </FooterWrapper>

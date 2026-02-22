@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Container, Section, Grid } from '../../shared/components/Layout';
-import { Card } from '../../shared/components/Card';
+import React from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Container, Section, Grid } from "../../shared/components/Layout";
+import { Card } from "../../shared/components/Card";
 
 const EngineeringContainer = styled(Section)`
   background: linear-gradient(
@@ -46,52 +46,39 @@ const FeatureDescription = styled.p`
 
 const features = [
   {
-    icon: '🛡️',
-    title: 'Resiliência de Aplicações',
+    icon: "🛡️",
+    name: "Sistemas Resilientes",
     description:
-      'Construção de sistemas preparados para falhas, com retry patterns, circuit breakers e graceful degradation.',
+      "Aplicações preparadas para falhas com retry strategies, isolamento de serviços e graceful degradation.",
   },
   {
-    icon: '🔧',
-    title: 'Manutenibilidade',
-    description:
-      'Código limpo, documentado e testável. Aplicação de design patterns e princípios SOLID.',
+    icon: "🔧",
+    name: "Código Manutenível",
+    description: "Código modular, testável e orientado à evolução contínua.",
   },
   {
-    icon: '♻️',
-    title: 'Reutilização de Código',
+    icon: "🏗️",
+    name: "Arquitetura Desacoplada",
     description:
-      'Componentes modulares e bibliotecas compartilhadas que aceleram o desenvolvimento.',
+      "Separação clara de responsabilidades com baixo acoplamento e alta coesão.",
   },
   {
-    icon: '⚡',
-    title: 'Processamento Assíncrono',
+    icon: "📊",
+    name: "Observabilidade",
     description:
-      'Utilização de filas, workers e event-driven architecture para alta performance.',
+      "Logging estruturado, métricas e tracing distribuído para monitoramento em produção.",
   },
   {
-    icon: '🏗️',
-    title: 'Arquitetura Desacoplada',
+    icon: "🔐",
+    name: "Segurança por Design",
     description:
-      'Separação de responsabilidades, baixo acoplamento e alta coesão nos componentes.',
+      "Validação de entrada, autenticação segura e proteção contra vulnerabilidades desde o design da solução.",
   },
   {
-    icon: '📊',
-    title: 'Observabilidade',
+    icon: "⚡",
+    name: "APIs de Alta Performance",
     description:
-      'Logging estruturado, métricas e tracing distribuído para monitoramento efetivo.',
-  },
-  {
-    icon: '🔐',
-    title: 'Segurança por Design',
-    description:
-      'Implementação de autenticação SSO, validação de entrada e proteção contra vulnerabilidades.',
-  },
-  {
-    icon: '🚀',
-    title: 'APIs Seguras',
-    description:
-      'Design de APIs REST com autenticação, rate limiting e validação robusta.',
+      "APIs REST com validação consistente, controle de acesso e foco em performance.",
   },
 ];
 
@@ -105,7 +92,7 @@ export const Engineering: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Engenharia, Performance & Segurança
+          Performance & Segurança
         </Title>
 
         <motion.div
@@ -118,7 +105,7 @@ export const Engineering: React.FC = () => {
             {features.map((feature, index) => (
               <FeatureCard key={index} $glass>
                 <FeatureIcon>{feature.icon}</FeatureIcon>
-                <FeatureTitle>{feature.title}</FeatureTitle>
+                <FeatureTitle>{feature.name}</FeatureTitle>
                 <FeatureDescription>{feature.description}</FeatureDescription>
               </FeatureCard>
             ))}
