@@ -1,10 +1,6 @@
-# Portfolio Profissional Técnico
+# Portfolio / Blog <span title="EmDesenvolvimento"><img height="32" src="https://img.shields.io/badge/-EM%20DESENVOLVIMENTO-brightgreen"/></span>
 
 Portfólio profissional moderno e escalável, focado em engenharia de software, arquitetura e integrações corporativas. Construído com React, TypeScript e Clean Architecture.
-
-## 🎯 Objetivo
-
-Transmitir maturidade técnica, capacidade enterprise e pensamento arquitetural através de um site profissional que reflete os princípios de engenharia de software valorizados pelo mercado.
 
 ## 🚀 Stack Tecnológica
 
