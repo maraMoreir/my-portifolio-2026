@@ -1,109 +1,94 @@
 # Portfolio / Blog <span title="EmDesenvolvimento"><img height="32" src="https://img.shields.io/badge/-EM%20DESENVOLVIMENTO-brightgreen"/></span>
 
-Portfólio profissional moderno e escalável, focado em engenharia de software, arquitetura e integrações corporativas. Construído com React, TypeScript e Clean Architecture.
+Portfólio profissional moderno e escalável, focado em engenharia de software, arquitetura e integrações corporativas. Frontend em React/TypeScript desacoplado de um backend em ASP.NET Core (.NET 10).
 
-## 🚀 Stack Tecnológica
+## 🚀 Stack
 
-- **React.js** - Biblioteca UI com componentes reutilizáveis
-- **TypeScript** (strict mode) - Tipagem forte e segurança
-- **Vite** - Build tool moderna e rápida
-- **Styled-components** - CSS-in-JS com tematização
-- **Framer Motion** - Animações fluidas e performáticas
-- **Three.js** - Elementos 3D leves e interativos
-- **React Router** - Navegação e rotas protegidas
+**Frontend** (`/`)
+- React 19 + TypeScript (strict) + Vite
+- Styled-components (tematização) + Framer Motion (animações)
+- React Router — landing pública, post individual e área administrativa protegida
+- Vitest + Testing Library
+
+**Backend** (`/backend`) — veja [backend/README.md](backend/README.md)
+- ASP.NET Core (.NET 10), EF Core + SQL Server
+- ASP.NET Core Identity + JWT (access token) + refresh token rotativo em cookie HttpOnly
+- xUnit (unitários + integração via `WebApplicationFactory`)
 
 ## 🏗️ Arquitetura
 
-O projeto segue princípios de Clean Architecture com separação clara de responsabilidades:
-
 ```
 src/
- ├── app/           # Configuração da aplicação
- ├── features/      # Features organizadas por domínio
- ├── shared/        # Componentes e utilitários compartilhados
- ├── entities/      # Modelos de domínio
- ├── infrastructure/# Serviços e integrações externas
- └── theme/         # Design tokens e temas
+ ├── app/            # App.tsx: providers, roteamento
+ ├── pages/          # Home, post individual, área admin (login/dashboard/editor)
+ ├── features/       # UI por domínio (about, auth, blog, navigation)
+ ├── services/       # Camada HTTP única — nenhum componente chama fetch diretamente
+ ├── entities/       # Tipos de domínio compartilhados (Post, User)
+ ├── shared/         # Componentes, animações e utilitários reaproveitáveis
+ ├── config/         # Acesso tipado a variáveis de ambiente
+ └── theme/          # Design tokens
 ```
 
-## 🔐 Segurança & Autenticação
+Fluxo de dados: `Componente → Hook de feature → Service → HTTP client → API .NET`.
 
-Infraestrutura preparada para:
-- Single Sign-On (SSO)
-- OAuth2 / OpenID Connect
-- JWT handling
-- Rotas protegidas
-- Session management
+## 🔐 Autenticação & administração
 
-## 🎨 Design System
+Um único usuário administrador. Login por e-mail/senha via ASP.NET Core
+Identity; sessão mantida por um access token JWT de curta duração (guardado
+em memória, nunca `localStorage`) renovado silenciosamente por um refresh
+token em cookie `HttpOnly`. Autorização (`/admin/*`) é decidida no
+**backend** — o guard de rota no frontend é só UX. Detalhes em
+[backend/README.md](backend/README.md#autenticação-e-autorização).
 
-- Dark mode first
-- Paleta space-tech minimalista
-- Gradientes neon controlados
-- Glassmorphism leve
-- Alto contraste e acessibilidade
+## 📝 Blog: mock vs. API real
 
-## 📦 Instalação
+O blog público funciona hoje sobre dados mockados (`src/services/blogService.ts`)
+e continua funcionando assim **até que `VITE_API_BASE_URL` seja configurada**
+(ver `.env.example`) — nesse momento `src/services/postsService.ts` passa a
+usar a API .NET automaticamente, sem tocar em nenhum componente. A área
+administrativa (criar/editar/publicar posts) sempre fala com a API real —
+não existe um "modo mock" para ela, já que não há nada para editar sem
+backend.
+
+## 📦 Instalação e desenvolvimento
 
 ```bash
-# Instalar dependências
+# Frontend
 npm install
-
-# Executar em desenvolvimento
-npm run dev
-
-# Build para produção
-npm run build
-
-# Preview da build
-npm run preview
-```
-
-## 🧪 Desenvolvimento
-
-```bash
-# Lint
+npm run dev              # http://localhost:5173
+npm run build             # type-check + build de produção
 npm run lint
+npm run test               # Vitest
+npm run test:watch
 
-# Type checking
-npm run build
+# Backend (veja backend/README.md para configuração de secrets/banco)
+cd backend
+dotnet run --project src/Portfolio.Api --launch-profile https
+dotnet test
 ```
 
 ## 🌐 Seções
 
-1. **Hero** - Apresentação profissional com elemento 3D
-2. **Sobre** - Especialidades e áreas de interesse
-3. **Tecnologias** - Stack completo organizado por categoria
-4. **Engenharia** - Princípios de arquitetura e performance
-5. **Novidades** - Blog técnico baseado em Markdown
-
-## 📝 Adicionando Posts ao Blog
-
-Os posts são gerenciados em `src/infrastructure/services/blogService.ts`. Para adicionar novos posts, edite o array `mockPosts` com:
-
-- título
-- data
-- tags
-- tempo de leitura
-- slug
-- excerpt
-- conteúdo (suporta Markdown)
+1. **Hero** — apresentação profissional
+2. **Tecnologias** — stack completo por categoria
+3. **Engenharia** — princípios de arquitetura e performance
+4. **Novidades** — listagem de posts + página de post individual (Markdown)
+5. **Admin** (`/admin`, protegido) — gerenciamento de posts
 
 ## ♿ Acessibilidade
 
-- Navegação por teclado
-- Skip links
-- ARIA labels
-- Alto contraste
-- Semântica HTML correta
+- Navegação por teclado, skip links, ARIA labels, alto contraste, semântica HTML correta
 
 ## 🚀 Performance
 
-- Code splitting automático
-- Lazy loading de componentes pesados
-- Three.js carregado sob demanda
-- Otimização de bundle
+- Code splitting por rota (post individual e área admin são carregados sob demanda, mesmo padrão usado no elemento 3D do Hero)
 - Suspense boundaries
+
+## 🔒 Segurança
+
+- Headers básicos (`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`) tanto no frontend (`vercel.json`) quanto na API
+- Nenhum segredo no código-fonte — variáveis de ambiente/`.env.example` no frontend, `dotnet user-secrets`/variáveis de ambiente no backend
+- Detalhes de autenticação, CORS e rate limiting em [backend/README.md](backend/README.md)
 
 ## 📄 Licença
 
