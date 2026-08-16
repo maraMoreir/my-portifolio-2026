@@ -1,4 +1,4 @@
-import type { AuthTokens, User } from './types';
+import type { AuthTokens, User } from '../entities/user/types';
 
 /**
  * Authentication Service
@@ -24,13 +24,13 @@ export class AuthService {
   async login(provider: 'azure' | 'google' | 'oauth2'): Promise<User> {
     // Mock implementation - replace with actual OAuth2 flow
     console.log(`Initializing ${provider} authentication...`);
-    
+
     // In real implementation:
     // 1. Redirect to OAuth2 provider
     // 2. Handle callback
     // 3. Exchange code for tokens
     // 4. Validate JWT
-    
+
     return {
       id: 'mock-user-id',
       email: 'user@example.com',
@@ -44,7 +44,7 @@ export class AuthService {
   async handleCallback(code: string): Promise<AuthTokens> {
     // Mock implementation - replace with actual token exchange
     console.log('Handling OAuth2 callback with code:', code);
-    
+
     return {
       accessToken: 'mock-access-token',
       refreshToken: 'mock-refresh-token',
@@ -67,7 +67,7 @@ export class AuthService {
   async refreshToken(refreshToken: string): Promise<AuthTokens> {
     // Mock implementation - replace with actual token refresh
     console.log('Refreshing token:', refreshToken);
-    
+
     return {
       accessToken: 'new-access-token',
       refreshToken: 'new-refresh-token',
@@ -81,7 +81,7 @@ export class AuthService {
   async logout(): Promise<void> {
     // Mock implementation - replace with actual logout
     console.log('Logging out...');
-    
+
     // In real implementation:
     // 1. Revoke tokens
     // 2. Clear session
@@ -94,7 +94,7 @@ export class AuthService {
   async getCurrentUser(token: string): Promise<User | null> {
     // Mock implementation - replace with actual user fetch
     console.log('Getting current user from token:', token);
-    
+
     return {
       id: 'mock-user-id',
       email: 'user@example.com',

@@ -1,4 +1,4 @@
-import type { Post, PostMetadata } from '../../entities/post/types';
+import type { Post, PostMetadata } from '../entities/post/types';
 
 /**
  * Calculate reading time based on word count
@@ -26,8 +26,8 @@ export const generateSlug = (title: string): string => {
 /**
  * Parse markdown frontmatter
  */
-export const parseFrontmatter = (markdown: string): { 
-  metadata: Record<string, unknown>; 
+export const parseFrontmatter = (markdown: string): {
+  metadata: Record<string, unknown>;
   content: string;
 } => {
   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
@@ -44,7 +44,7 @@ export const parseFrontmatter = (markdown: string): {
     const [key, ...valueParts] = line.split(':');
     if (key && valueParts.length > 0) {
       const value = valueParts.join(':').trim();
-      
+
       // Parse arrays
       if (value.startsWith('[') && value.endsWith(']')) {
         metadata[key.trim()] = value

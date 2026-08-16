@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { AuthState } from '../../infrastructure/auth/types';
-import { authService } from '../../infrastructure/auth/authService';
+import type { AuthState } from '../../entities/user/types';
+import { authService } from '../../services/authService';
 
 interface AuthContextValue extends AuthState {
   login: (provider: 'azure' | 'google' | 'oauth2') => Promise<void>;
