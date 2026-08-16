@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+
+# Secrets live in `dotnet user-secrets` (dev) or environment variables
+# (prod) — never in the repo. This is a belt-and-suspenders guard in case
+# anyone ever runs `dotnet user-secrets` with --project pointing oddly.
+secrets.json
