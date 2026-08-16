@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Container, Section, Grid } from '../../shared/components/Layout';
 import { Card, Tag } from '../../shared/components/Card';
 import { SectionTitle } from '../../shared/components/SectionTitle';
@@ -133,7 +134,7 @@ export const Blog: React.FC = () => {
               <FadeInWhenVisible delay={0.2}>
                 <Grid $columns={2}>
                   {posts.map((post) => (
-                    <PostCard key={post.id} $glass>
+                    <PostCard key={post.id} as={Link} to={`/blog/${post.slug}`} $glass>
                       <PostDate>{formatDate(post.date)}</PostDate>
                       <PostTitle>{post.title}</PostTitle>
                       {post.excerpt && <PostExcerpt>{post.excerpt}</PostExcerpt>}

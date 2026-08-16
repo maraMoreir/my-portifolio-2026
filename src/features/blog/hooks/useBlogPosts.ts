@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { PostMetadata } from '../../../entities/post/types';
-import { getAllPosts, getAllTags } from '../../../services/blogService';
+import { postsService } from '../../../services/postsService';
 
 interface UseBlogPostsResult {
   /** Posts already sorted (newest first) and filtered by the selected tag. */
@@ -36,8 +36,8 @@ export const useBlogPosts = (): UseBlogPostsResult => {
 
       try {
         const [postsData, tagsData] = await Promise.all([
-          getAllPosts(),
-          getAllTags(),
+          postsService.getAllPosts(),
+          postsService.getAllTags(),
         ]);
         if (cancelled) return;
 

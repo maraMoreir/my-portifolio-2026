@@ -20,9 +20,19 @@ const getEnvVar = (key: string, fallback?: string): string => {
   return value;
 };
 
+const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL as string | undefined;
+
 export const env = {
   /** Base URL of the backend API. Defaults to a same-origin "/api" until the .NET API is deployed. */
   apiBaseUrl: getEnvVar('VITE_API_BASE_URL', '/api'),
+  /**
+   * Whether a real backend has been explicitly configured. Services that
+   * still have a mock fallback (e.g. the public blog listing) use this to
+   * decide which implementation to call — see services/postsService.ts.
+   * Deliberately independent of `apiBaseUrl`'s fallback value, so the app
+   * keeps working on mocks until a real API URL is actually provided.
+   */
+  hasApi: Boolean(rawApiBaseUrl && rawApiBaseUrl.length > 0),
   isDev: import.meta.env.DEV,
   isProd: import.meta.env.PROD,
 } as const;

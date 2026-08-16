@@ -2,13 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  avatar?: string;
-}
-
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  roles: string[];
 }
 
 export interface AuthState {
@@ -16,11 +10,4 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-}
-
-export interface AuthConfig {
-  clientId: string;
-  authority: string;
-  redirectUri: string;
-  scopes: string[];
 }

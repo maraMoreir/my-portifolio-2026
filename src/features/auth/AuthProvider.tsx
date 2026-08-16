@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { AuthState } from '../../entities/user/types';
-import { authService } from '../../services/authService';
+import * as authApiService from '../../services/authApiService';
 
 interface AuthContextValue extends AuthState {
-  login: (provider: 'azure' | 'google' | 'oauth2') => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -23,76 +23,51 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    // Check for existing session on mount
-    const checkSession = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-          const isValid = await authService.validateToken(token);
-          if (isValid) {
-            const user = await authService.getCurrentUser(token);
-            setState({
-              user,
-              isAuthenticated: true,
-              isLoading: false,
-              error: null,
-            });
-            return;
-          }
-        }
-      } catch (error) {
-        console.error('Session check failed:', error);
+    // Restores the session (if any) using the HttpOnly refresh cookie —
+    // there's nothing readable in localStorage to check anymore, so this
+    // silent refresh call is the only way to know if the visitor is
+    // already logged in after a page reload.
+    let cancelled = false;
+
+    const restoreSession = async () => {
+      const user = await authApiService.refresh();
+      if (cancelled) return;
+
+      if (user) {
+        setState({ user, isAuthenticated: true, isLoading: false, error: null });
+      } else {
+        setState((prev) => ({ ...prev, isLoading: false }));
       }
-      
-      setState(prev => ({ ...prev, isLoading: false }));
     };
 
-    checkSession();
+    restoreSession();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const login = async (provider: 'azure' | 'google' | 'oauth2') => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
-    try {
-      const user = await authService.login(provider);
-      setState({
-        user,
-        isAuthenticated: true,
-        isLoading: false,
-        error: null,
-      });
-    } catch (error) {
-      setState({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'Authentication failed',
-      });
-    }
-  };
+  const login = useCallback(async (email: string, password: string) => {
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-  const logout = async () => {
-    setState(prev => ({ ...prev, isLoading: true }));
-    
     try {
-      await authService.logout();
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      
-      setState({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null,
-      });
+      const user = await authApiService.login(email, password);
+      setState({ user, isAuthenticated: true, isLoading: false, error: null });
     } catch (error) {
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'Logout failed',
-      }));
+      const message = error instanceof Error ? error.message : 'Falha ao autenticar';
+      setState({ user: null, isAuthenticated: false, isLoading: false, error: message });
+      throw error;
     }
-  };
+  }, []);
+
+  const logout = useCallback(async () => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+
+    try {
+      await authApiService.logout();
+    } finally {
+      setState({ user: null, isAuthenticated: false, isLoading: false, error: null });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ ...state, login, logout }}>
