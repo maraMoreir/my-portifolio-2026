@@ -201,7 +201,6 @@ export const Footer: React.FC = () => {
             <FooterSection variants={itemVariants}>
               <FooterTitle>Contato</FooterTitle>
               <ContactList>
-                <ContactItem></ContactItem>
                 <ContactItem>
                   <ContactLink
                     href="https://www.linkedin.com/in/silmaraa/"

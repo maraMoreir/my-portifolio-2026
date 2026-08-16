@@ -1,24 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { Container, Section, Grid } from '../../shared/components/Layout';
 import { Card, Tag } from '../../shared/components/Card';
+import { SectionTitle } from '../../shared/components/SectionTitle';
+import { FadeInWhenVisible } from '../../shared/animations/FadeInWhenVisible';
 
 const TechContainer = styled(Section)``;
-
-const Title = styled(motion.h2)`
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  text-align: center;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.primary},
-    ${({ theme }) => theme.colors.secondary}
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-`;
 
 const CategoryCard = styled(Card)``;
 
@@ -57,21 +44,9 @@ export const Technologies: React.FC = () => {
   return (
     <TechContainer id="technologies">
       <Container>
-        <Title
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Tecnologias
-        </Title>
+        <SectionTitle>Tecnologias</SectionTitle>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <FadeInWhenVisible delay={0.2}>
           <Grid $columns={2}>
             {technologies.map((tech, index) => (
               <CategoryCard key={index}>
@@ -84,7 +59,7 @@ export const Technologies: React.FC = () => {
               </CategoryCard>
             ))}
           </Grid>
-        </motion.div>
+        </FadeInWhenVisible>
       </Container>
     </TechContainer>
   );

@@ -14,7 +14,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "Contato", href: "#footer" },
 ];
 
-const SECTION_IDS = ["hero", "about", "technologies", "blog", "footer"];
+const SECTION_IDS = ["hero", "technologies", "engineering", "blog", "footer"];
 
 const HeaderWrapper = styled(motion.header)`
   position: fixed;
