@@ -110,15 +110,20 @@ app.MapControllers();
 // deep dependency check, so a slow/degraded DB doesn't flap the deploy.
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" })).AllowAnonymous();
 
-// Migrations are applied automatically only in Development, for a fast
-// inner loop. Production schema changes go through a deliberate deploy
-// step (`dotnet ef database update`) instead of running unattended on
-// every process start.
+// Migrations apply automatically in Development, for a fast inner loop.
+// In Production this stays off by default — schema changes are a
+// deliberate deploy step, not something that runs unattended on every
+// process start — but can be opted into for a specific deploy (e.g. the
+// very first one, or a environment the operator can't reach directly)
+// via RunMigrationsOnStartup=true. Meant to be turned back off afterward.
 using (var scope = app.Services.CreateScope())
 {
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-    if (app.Environment.IsDevelopment())
+    var shouldMigrate = app.Environment.IsDevelopment()
+        || app.Configuration.GetValue("RunMigrationsOnStartup", false);
+
+    if (shouldMigrate)
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await db.Database.MigrateAsync();
