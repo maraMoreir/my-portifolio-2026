@@ -23,7 +23,7 @@ public static class DependencyInjection
                 "ConnectionStrings:Default nao configurada. Defina via 'dotnet user-secrets' (dev) " +
                 "ou a variavel de ambiente ConnectionStrings__Default (prod).");
 
-        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
         services.AddIdentityCore<ApplicationUser>(options =>
             {

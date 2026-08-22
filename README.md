@@ -11,7 +11,7 @@ Portfólio profissional moderno e escalável, focado em engenharia de software, 
 - Vitest + Testing Library
 
 **Backend** (`/backend`) — veja [backend/README.md](backend/README.md)
-- ASP.NET Core (.NET 10), EF Core + SQL Server
+- ASP.NET Core (.NET 10), EF Core + PostgreSQL
 - ASP.NET Core Identity + JWT (access token) + refresh token rotativo em cookie HttpOnly
 - xUnit (unitários + integração via `WebApplicationFactory`)
 

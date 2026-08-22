@@ -53,7 +53,9 @@ Nada de segredo fica em `appsettings*.json`. Configure via
 cd src/Portfolio.Api
 dotnet user-secrets init   # já feito neste repo, mas idempotente
 
-dotnet user-secrets set "ConnectionStrings:Default" "Server=(localdb)\MSSQLLocalDB;Database=PortfolioDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
+# Postgres local via Docker (troque a porta/senha se preferir outro setup):
+# docker run -d --name portfolio-postgres -e POSTGRES_PASSWORD=devpassword -e POSTGRES_DB=portfoliodb -p 55432:5432 postgres:16-alpine
+dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=55432;Database=portfoliodb;Username=postgres;Password=devpassword"
 dotnet user-secrets set "Jwt:SigningKey" "<gere uma chave aleatória de 32+ chars, ex.: openssl rand -base64 48>"
 dotnet user-secrets set "AdminUser:Email" "seu-email@exemplo.com"
 dotnet user-secrets set "AdminUser:Password" "<senha forte, só usada na primeira execução>"
@@ -92,6 +94,54 @@ repositórios mockados) + 12 de integração (HTTP real, banco SQLite em
 memória) cobrindo login, 401/403, rotação/replay de refresh token, e o
 ciclo completo de um post (criar → publicar → aparecer no público →
 despublicar → excluir).
+
+## Deploy (Render)
+
+O backend roda via Docker (`backend/Dockerfile`) — o mesmo artefato pode ir
+para qualquer host que aceite um container (Render, Azure App Service,
+Fly.io etc.). Passo a passo para o Render:
+
+1. **Banco**: no dashboard do Render, crie um **PostgreSQL** (free tier).
+   Copie a *Internal Connection String* (mais rápida — mesmo datacenter)
+   se o Web Service também estiver no Render, ou a *External* caso contrário.
+2. **Web Service**: "New +" → "Web Service" → conecte o repositório
+   `my-portifolio-2026` → **Root Directory**: `backend` → **Runtime**: `Docker`
+   (ele detecta o `Dockerfile` automaticamente).
+3. **Environment Variables** do Web Service (Render injeta `PORT` sozinho —
+   não precisa configurar):
+
+   | Variável | Valor |
+   |---|---|
+   | `ConnectionStrings__Default` | A connection string do Postgres do passo 1, no formato `Host=...;Port=5432;Database=...;Username=...;Password=...;SSL Mode=Require;Trust Server Certificate=true` (o Render exige SSL — adicione esses dois parâmetros ao final da string que ele fornece) |
+   | `Jwt__SigningKey` | Uma chave aleatória de 32+ caracteres (`openssl rand -base64 48`), **diferente** da usada em dev |
+   | `Jwt__Issuer` | `PortfolioApi` |
+   | `Jwt__Audience` | `PortfolioFrontend` |
+   | `AdminUser__Email` | Seu e-mail |
+   | `AdminUser__Password` | Uma senha forte só sua (usada uma única vez, na primeira subida) |
+   | `AdminUser__Name` | Seu nome |
+   | `Cors__AllowedOrigins__0` | URL de produção do frontend no Vercel (ex.: `https://seu-dominio.vercel.app`) |
+   | `ASPNETCORE_ENVIRONMENT` | `Production` (já é o padrão do Dockerfile, mas não custa deixar explícito) |
+
+4. **Migration inicial**: como o `Program.cs` só aplica migrations
+   automaticamente em `Development` (propositalmente — troca de schema em
+   produção é uma etapa deliberada, não algo que roda sozinho a cada
+   deploy), rode uma vez, da sua máquina, apontando para o banco do Render:
+
+   ```bash
+   dotnet ef database update \
+     --project src/Portfolio.Infrastructure \
+     --startup-project src/Portfolio.Api \
+     --connection "<external connection string do Postgres do Render>"
+   ```
+
+5. **No Vercel** (frontend): adicione a env var `VITE_API_BASE_URL` apontando
+   para `https://<seu-app>.onrender.com/api` e faça um novo deploy (variáveis
+   de ambiente do Vite só são lidas em build time).
+
+Detalhe de infraestrutura já tratado no código: o Render termina TLS e
+encaminha HTTP internamente para o container — `Program.cs` processa os
+headers `X-Forwarded-*` (`UseForwardedHeaders`) para que o rate limiting por
+IP do login continue vendo o IP real do visitante, e não o do proxy.
 
 ## Modelo de dados
 

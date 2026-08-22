@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Api.Middleware;
@@ -57,6 +58,22 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+// Deployed behind a reverse proxy (Render, Azure App Service, ...) that
+// terminates TLS and forwards plain HTTP internally. Without this, every
+// request looks like it came from the proxy's own IP over HTTP — which
+// would make UseHttpsRedirection redirect-loop, and silently turn the
+// per-IP login rate limit (above) into a single shared bucket for every
+// visitor. KnownNetworks/KnownProxies are cleared because the platform's
+// proxy IP isn't fixed/known in advance and the container has no other
+// public ingress path anyway.
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+};
+forwardedHeadersOptions.KnownIPNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 // First in the pipeline so it can catch anything thrown by everything after it.
 app.UseMiddleware<ExceptionHandlingMiddleware>();
