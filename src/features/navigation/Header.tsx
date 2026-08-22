@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSectionNav } from "../../shared/hooks/useSectionNav";
 
 interface NavLink {
   label: string;
@@ -214,24 +215,11 @@ const MobileNavItem = styled.a<{ $active?: boolean }>`
   }
 `;
 
-const handleNavClick = (
-  e: React.MouseEvent<HTMLAnchorElement>,
-  href: string,
-  onClose?: () => void,
-) => {
-  e.preventDefault();
-  const id = href.replace("#", "");
-  const target = document.getElementById(id);
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-  onClose?.();
-};
-
 export const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [menuOpen, setMenuOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const handleNavClick = useSectionNav();
 
   useEffect(() => {
     const sectionMap = new Map<Element, string>();

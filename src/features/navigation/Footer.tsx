@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useSectionNav } from "../../shared/hooks/useSectionNav";
 
 const FooterWrapper = styled.footer`
   background: rgba(5, 1, 15, 0.85);
@@ -155,17 +156,6 @@ const NAV_LINKS = [
   { label: "Blog", href: "#blog" },
 ];
 
-const handleNavClick = (
-  e: React.MouseEvent<HTMLAnchorElement>,
-  href: string,
-) => {
-  e.preventDefault();
-  const id = href.replace("#", "");
-  const target = document.getElementById(id);
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -181,6 +171,8 @@ const itemVariants = {
 };
 
 export const Footer: React.FC = () => {
+  const handleNavClick = useSectionNav();
+
   return (
     <FooterWrapper id="footer" aria-label="Rodapé">
       <FooterInner>

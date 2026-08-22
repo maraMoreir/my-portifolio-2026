@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { theme } from "../theme/theme";
@@ -26,6 +26,19 @@ const RouteFallback: React.FC = () => (
 // Needs to be inside <BrowserRouter> to read the current location.
 const AppRoutes: React.FC = () => {
   const location = useLocation();
+
+  // Completes the "navigate home, then scroll" half of useSectionNav: the
+  // header/footer nav links from a non-home route (post detail, admin)
+  // land here on "/#section" — once Home has mounted, scroll to it.
+  useEffect(() => {
+    if (location.pathname !== "/" || !location.hash) return;
+
+    const id = location.hash.slice(1);
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
 
   return (
     <AuthProvider>
