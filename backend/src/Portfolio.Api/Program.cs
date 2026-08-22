@@ -105,6 +105,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Unauthenticated liveness probe for the hosting platform (Render, etc.) —
+// deliberately just confirms the process is up and answering HTTP, not a
+// deep dependency check, so a slow/degraded DB doesn't flap the deploy.
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" })).AllowAnonymous();
+
 // Migrations are applied automatically only in Development, for a fast
 // inner loop. Production schema changes go through a deliberate deploy
 // step (`dotnet ef database update`) instead of running unattended on
